@@ -20,7 +20,7 @@ php artisan migrate --force
 # Coolify para cargar el admin y los datos de ejemplo, luego quítala.
 if [ "$RUN_SEEDER" = "true" ]; then
     echo "Ejecutando seeders..."
-    php artisan db:seed --force
+    php artisan db:seed --force || echo "Aviso: los seeders fallaron, la app sigue arrancando."
 fi
 
 if [ ! -L /var/www/html/public/storage ]; then

@@ -28,7 +28,7 @@ RUN npm run build
 # ---- Etapa 3: imagen final (PHP-FPM + Nginx + Supervisor) ----
 FROM php:8.2-fpm-alpine
 
-RUN apk add --no-cache nginx supervisor libzip-dev oniguruma-dev \
+RUN apk add --no-cache nginx supervisor curl libzip-dev oniguruma-dev \
     && docker-php-ext-install pdo_mysql mbstring zip opcache
 
 WORKDIR /var/www/html

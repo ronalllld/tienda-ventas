@@ -67,7 +67,7 @@ class ProductoSeeder extends Seeder
                         if ($talla === 'Única' && $color === $item['color']) {
                             $stock = 15;
                         } else {
-                            $stock = fake()->numberBetween(0, 20);
+                            $stock = random_int(0, 20);
                         }
 
                         VarianteProducto::query()->updateOrCreate(
