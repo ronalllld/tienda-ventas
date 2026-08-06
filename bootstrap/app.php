@@ -13,6 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
+
+        // Coolify (Traefik) hace de proxy inverso delante del contenedor:
+        // hay que confiar en sus cabeceras X-Forwarded-* para que Laravel
+        // genere URLs https:// y detecte bien la conexión segura.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
