@@ -14,12 +14,14 @@ class ProductoPublicoController extends Controller
     {
         $productos = Producto::query()
             ->where('activo', true)
+            ->conStockDisponible()
             ->with(['categoria', 'imagenes'])
             ->when($request->filled('categoria'), function ($query) use ($request) {
                 $query->whereHas('categoria', fn ($q) => $q->where('slug', $request->string('categoria')));
             })
             ->when($request->filled('talla') || $request->filled('color'), function ($query) use ($request) {
                 $query->whereHas('variantes', function ($q) use ($request) {
+                    $q->where('disponible', true);
                     $q->when($request->filled('talla'), fn ($q) => $q->where('talla', $request->string('talla')));
                     $q->when($request->filled('color'), fn ($q) => $q->where('color', $request->string('color')));
                 });
@@ -36,6 +38,7 @@ class ProductoPublicoController extends Controller
     {
         $producto = Producto::query()
             ->where('activo', true)
+            ->conStockDisponible()
             ->with(['categoria', 'imagenes', 'variantes'])
             ->where(is_numeric($idOSlug) ? 'id' : 'slug', $idOSlug)
             ->firstOrFail();

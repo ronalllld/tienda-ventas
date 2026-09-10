@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -40,5 +41,13 @@ class Producto extends Model
     public function imagenes(): HasMany
     {
         return $this->hasMany(ImagenProducto::class)->orderBy('orden');
+    }
+
+    public function scopeConStockDisponible(Builder $query): Builder
+    {
+        return $query->where(function (Builder $q) {
+            $q->doesntHave('variantes')
+                ->orWhereHas('variantes', fn (Builder $q) => $q->where('disponible', true));
+        });
     }
 }
