@@ -75,11 +75,11 @@ async function eliminar(variante) {
         <form class="flex flex-wrap items-end gap-2" @submit.prevent="agregar">
             <div>
                 <label class="block text-xs text-gray-600 mb-1">Talla (opcional)</label>
-                <input v-model="nueva.talla" class="w-20 rounded-md border-gray-300 text-sm">
+                <input v-model="nueva.talla" class="w-20 rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100">
             </div>
             <div>
                 <label class="block text-xs text-gray-600 mb-1">Color</label>
-                <input v-model="nueva.color" required class="w-28 rounded-md border-gray-300 text-sm">
+                <input v-model="nueva.color" required class="w-28 rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100">
             </div>
             <button type="submit" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">
                 Agregar

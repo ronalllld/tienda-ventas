@@ -38,17 +38,17 @@ function enviar() {
     <form class="space-y-4 bg-white p-6 rounded-lg shadow-sm max-w-xl" @submit.prevent="enviar">
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-            <input v-model="form.nombre" required class="w-full rounded-md border-gray-300">
+            <input v-model="form.nombre" required class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100">
         </div>
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Slug (opcional)</label>
-            <input v-model="form.slug" class="w-full rounded-md border-gray-300">
+            <input v-model="form.slug" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100">
         </div>
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-            <textarea v-model="form.descripcion" rows="3" class="w-full rounded-md border-gray-300"></textarea>
+            <textarea v-model="form.descripcion" rows="3" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100"></textarea>
         </div>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -56,14 +56,14 @@ function enviar() {
                 <label class="block text-sm font-medium text-gray-700 mb-1">Precio de venta (Bs)</label>
                 <div class="relative">
                     <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-sm text-gray-400">Bs</span>
-                    <input v-model.number="form.precio" type="number" min="0" step="0.01" required class="w-full rounded-md border-gray-300 pl-9">
+                    <input v-model.number="form.precio" type="number" min="0" step="0.01" required class="w-full rounded-md border border-gray-300 py-2 pl-9 pr-3 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100">
                 </div>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Precio de costo (Bs, opcional)</label>
                 <div class="relative">
                     <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-sm text-gray-400">Bs</span>
-                    <input v-model.number="form.precio_costo" type="number" min="0" step="0.01" class="w-full rounded-md border-gray-300 pl-9">
+                    <input v-model.number="form.precio_costo" type="number" min="0" step="0.01" class="w-full rounded-md border border-gray-300 py-2 pl-9 pr-3 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100">
                 </div>
                 <p class="mt-1 text-xs text-gray-400">No se muestra al público. Se usa para calcular tu ganancia.</p>
             </div>
@@ -71,7 +71,7 @@ function enviar() {
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
-            <select v-model="form.categoria_id" required class="w-full rounded-md border-gray-300">
+            <select v-model="form.categoria_id" required class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100">
                 <option value="" disabled>Selecciona una categoría</option>
                 <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id">
                     {{ categoria.nombre }}
@@ -80,7 +80,7 @@ function enviar() {
         </div>
 
         <label class="flex items-center gap-2 text-sm text-gray-700">
-            <input v-model="form.activo" type="checkbox" class="rounded border-gray-300">
+            <input v-model="form.activo" type="checkbox" class="h-4 w-4 rounded border border-gray-300">
             Producto activo (visible en el catálogo)
         </label>
 

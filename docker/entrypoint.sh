@@ -3,6 +3,12 @@ set -e
 
 cd /var/www/html
 
+# Si Coolify monta un volumen persistente sobre storage/, su dueño puede
+# quedar en root (el chown del Dockerfile solo aplica en build, no al montar
+# el volumen). Lo re-aplicamos acá para que las subidas de imágenes no fallen.
+chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || true
+chmod -R 775 storage bootstrap/cache 2>/dev/null || true
+
 echo "Esperando la base de datos..."
 tries=0
 until php -r "new PDO('mysql:host='.getenv('DB_HOST').';port='.getenv('DB_PORT'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));" 2>/dev/null; do
