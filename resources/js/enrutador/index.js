@@ -27,6 +27,7 @@ const router = createRouter({
                 { path: 'productos/nuevo', name: 'admin.productos.nuevo', component: () => import('../paginas/admin/ProductoFormPagina.vue') },
                 { path: 'productos/:id/editar', name: 'admin.productos.editar', component: () => import('../paginas/admin/ProductoFormPagina.vue') },
                 { path: 'categorias', name: 'admin.categorias', component: () => import('../paginas/admin/CategoriasListaPagina.vue') },
+                { path: 'ventas', name: 'admin.ventas', component: () => import('../paginas/admin/VentasPagina.vue') },
             ],
         },
     ],

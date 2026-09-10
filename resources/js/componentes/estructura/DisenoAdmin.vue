@@ -21,6 +21,7 @@ async function salir() {
 const enlaces = [
     { nombre: 'admin.productos', etiqueta: 'Productos' },
     { nombre: 'admin.categorias', etiqueta: 'Categorías' },
+    { nombre: 'admin.ventas', etiqueta: 'Ventas' },
 ];
 </script>
 

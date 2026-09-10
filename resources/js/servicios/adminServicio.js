@@ -75,6 +75,12 @@ export async function eliminarVariante(varianteId) {
     await api.delete(`/api/admin/variantes/${varianteId}`);
 }
 
+// Ventas
+export async function obtenerVentas() {
+    const { data } = await api.get('/api/admin/ventas');
+    return { ventas: data.data, resumen: data.resumen };
+}
+
 // Imágenes
 export async function subirImagen(productoId, archivo, orden) {
     const formData = new FormData();

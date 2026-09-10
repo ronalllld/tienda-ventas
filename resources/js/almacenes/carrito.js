@@ -9,25 +9,16 @@ export const useCarritoStore = defineStore('carrito', {
         items: [],
     }),
     getters: {
-        cantidadTotal: (state) => state.items.reduce((acum, item) => acum + item.cantidad, 0),
-        totalEstimado: (state) => state.items.reduce((acum, item) => acum + item.precio * item.cantidad, 0),
+        cantidadTotal: (state) => state.items.length,
+        totalEstimado: (state) => state.items.reduce((acum, item) => acum + item.precio, 0),
     },
     actions: {
         agregarItem(nuevoItem) {
-            const existente = this.items.find((item) => mismoItem(item, nuevoItem));
-
-            if (existente) {
-                existente.cantidad = Math.min(existente.cantidad + nuevoItem.cantidad, nuevoItem.stock);
+            if (this.items.some((item) => mismoItem(item, nuevoItem))) {
                 return;
             }
 
             this.items.push(nuevoItem);
-        },
-        actualizarCantidad(varianteId, cantidad) {
-            const item = this.items.find((item) => item.varianteId === varianteId);
-            if (item) {
-                item.cantidad = Math.max(1, Math.min(cantidad, item.stock));
-            }
         },
         quitarItem(varianteId) {
             this.items = this.items.filter((item) => item.varianteId !== varianteId);

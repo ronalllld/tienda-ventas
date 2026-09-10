@@ -6,11 +6,11 @@ export function formatearPrecio(valor) {
 
 export function construirMensajePedido(items) {
     const lineas = items.map((item, indice) => {
-        const subtotal = item.precio * item.cantidad;
-        return `${indice + 1}. ${item.nombre} - Talla: ${item.talla} - Color: ${item.color} - Cantidad: ${item.cantidad} - Subtotal: ${formatearPrecio(subtotal)}`;
+        const talla = item.talla ? ` - Talla: ${item.talla}` : '';
+        return `${indice + 1}. ${item.nombre}${talla} - Color: ${item.color} - Precio: ${formatearPrecio(item.precio)}`;
     });
 
-    const total = items.reduce((acum, item) => acum + item.precio * item.cantidad, 0);
+    const total = items.reduce((acum, item) => acum + item.precio, 0);
 
     return [
         'Hola, quiero hacer el siguiente pedido:',

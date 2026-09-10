@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Admin\ImagenProductoController;
 use App\Http\Controllers\Api\Admin\ProductoController;
 use App\Http\Controllers\Api\Admin\SesionAdminController;
 use App\Http\Controllers\Api\Admin\VarianteProductoController;
+use App\Http\Controllers\Api\Admin\VentaController;
 use App\Http\Controllers\Api\Publico\CategoriaPublicaController;
 use App\Http\Controllers\Api\Publico\ProductoPublicoController;
 use Illuminate\Support\Facades\Route;
@@ -36,5 +37,7 @@ Route::prefix('admin')->group(function () {
 
         Route::post('/productos/{producto}/imagenes', [ImagenProductoController::class, 'store']);
         Route::delete('/imagenes/{imagen}', [ImagenProductoController::class, 'destroy']);
+
+        Route::get('/ventas', [VentaController::class, 'index']);
     });
 });

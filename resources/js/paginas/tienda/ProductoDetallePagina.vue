@@ -13,7 +13,6 @@ const carrito = useCarritoStore();
 const producto = ref(null);
 const cargando = ref(true);
 const varianteId = ref(null);
-const cantidad = ref(1);
 const mensaje = ref('');
 
 const varianteElegida = computed(() =>
@@ -30,7 +29,7 @@ onMounted(cargar);
 watch(() => route.params.slug, cargar);
 
 function agregarAlCarrito() {
-    if (!varianteElegida.value || varianteElegida.value.stock === 0) {
+    if (!varianteElegida.value || !varianteElegida.value.disponible) {
         return;
     }
 
@@ -41,9 +40,7 @@ function agregarAlCarrito() {
         slug: producto.value.slug,
         talla: varianteElegida.value.talla,
         color: varianteElegida.value.color,
-        cantidad: cantidad.value,
         precio: producto.value.precio,
-        stock: varianteElegida.value.stock,
         imagen: producto.value.imagenes[0]?.url ?? null,
     });
 
@@ -78,33 +75,14 @@ function agregarAlCarrito() {
                     <SelectorVariante v-model="varianteId" :variantes="producto.variantes" />
                 </div>
 
-                <div class="mt-6 flex items-center gap-3">
-                    <div class="flex items-center rounded-full border border-neutral-200">
-                        <button
-                            type="button"
-                            class="flex h-11 w-11 items-center justify-center text-neutral-500 hover:text-violet-600 disabled:opacity-30"
-                            :disabled="cantidad <= 1"
-                            @click="cantidad--"
-                        >
-                            &minus;
-                        </button>
-                        <span class="w-6 text-center text-sm font-medium text-neutral-900">{{ cantidad }}</span>
-                        <button
-                            type="button"
-                            class="flex h-11 w-11 items-center justify-center text-neutral-500 hover:text-violet-600 disabled:opacity-30"
-                            :disabled="cantidad >= (varianteElegida?.stock ?? 1)"
-                            @click="cantidad++"
-                        >
-                            +
-                        </button>
-                    </div>
+                <div class="mt-6">
                     <button
                         type="button"
-                        class="flex-1 rounded-full bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-40"
-                        :disabled="!varianteElegida || varianteElegida.stock === 0"
+                        class="w-full rounded-full bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-40"
+                        :disabled="!varianteElegida || !varianteElegida.disponible"
                         @click="agregarAlCarrito"
                     >
-                        {{ varianteElegida?.stock === 0 ? 'Sin stock' : 'Agregar a mi selección' }}
+                        {{ varianteElegida && !varianteElegida.disponible ? 'Vendido' : 'Agregar a mi selección' }}
                     </button>
                 </div>
 

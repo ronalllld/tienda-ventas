@@ -13,7 +13,7 @@ class VarianteProductoResource extends JsonResource
             'id' => $this->id,
             'talla' => $this->talla,
             'color' => $this->color,
-            'stock' => $this->stock,
+            'disponible' => (bool) $this->disponible,
         ];
     }
 }

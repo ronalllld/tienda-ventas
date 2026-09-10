@@ -13,6 +13,7 @@ class Producto extends Model
         'slug',
         'descripcion',
         'precio',
+        'precio_costo',
         'categoria_id',
         'activo',
     ];
@@ -21,6 +22,7 @@ class Producto extends Model
     {
         return [
             'precio' => 'decimal:2',
+            'precio_costo' => 'decimal:2',
             'activo' => 'boolean',
         ];
     }

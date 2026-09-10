@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class VarianteProducto extends Model
 {
@@ -13,18 +14,23 @@ class VarianteProducto extends Model
         'producto_id',
         'talla',
         'color',
-        'stock',
+        'disponible',
     ];
 
     protected function casts(): array
     {
         return [
-            'stock' => 'integer',
+            'disponible' => 'boolean',
         ];
     }
 
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class);
+    }
+
+    public function ventas(): HasMany
+    {
+        return $this->hasMany(Venta::class, 'variante_id');
     }
 }

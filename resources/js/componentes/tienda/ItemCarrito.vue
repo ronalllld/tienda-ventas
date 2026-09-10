@@ -17,29 +17,13 @@ const carrito = useCarritoStore();
 
         <div class="min-w-0 flex-1">
             <p class="truncate text-sm font-medium text-neutral-900">{{ item.nombre }}</p>
-            <p class="text-xs text-neutral-500">{{ item.talla }} &middot; {{ item.color }}</p>
+            <p class="text-xs text-neutral-500">
+                <template v-if="item.talla">{{ item.talla }} &middot; {{ item.color }}</template>
+                <template v-else>{{ item.color }}</template>
+            </p>
 
             <div class="mt-1.5 flex items-center justify-between">
-                <div class="flex items-center rounded-full border border-neutral-200">
-                    <button
-                        type="button"
-                        class="flex h-6 w-6 items-center justify-center text-neutral-500 hover:text-violet-600 disabled:opacity-30"
-                        :disabled="item.cantidad <= 1"
-                        @click="carrito.actualizarCantidad(item.varianteId, item.cantidad - 1)"
-                    >
-                        &minus;
-                    </button>
-                    <span class="w-5 text-center text-xs font-medium text-neutral-900">{{ item.cantidad }}</span>
-                    <button
-                        type="button"
-                        class="flex h-6 w-6 items-center justify-center text-neutral-500 hover:text-violet-600 disabled:opacity-30"
-                        :disabled="item.cantidad >= item.stock"
-                        @click="carrito.actualizarCantidad(item.varianteId, item.cantidad + 1)"
-                    >
-                        +
-                    </button>
-                </div>
-                <p class="text-sm font-semibold text-neutral-900">{{ formatearPrecio(item.precio * item.cantidad) }}</p>
+                <p class="text-sm font-semibold text-neutral-900">{{ formatearPrecio(item.precio) }}</p>
             </div>
         </div>
 

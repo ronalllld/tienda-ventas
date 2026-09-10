@@ -25,6 +25,7 @@ class GuardarProductoRequest extends FormRequest
             ],
             'descripcion' => ['nullable', 'string'],
             'precio' => ['required', 'numeric', 'min:0'],
+            'precio_costo' => ['nullable', 'numeric', 'min:0'],
             'categoria_id' => ['required', 'exists:categorias,id'],
             'activo' => ['boolean'],
         ];

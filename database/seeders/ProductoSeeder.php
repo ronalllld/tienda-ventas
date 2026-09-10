@@ -53,26 +53,22 @@ class ProductoSeeder extends Seeder
                         'nombre' => $item['nombre'],
                         'descripcion' => "{$item['nombre']} de la categoría {$categoriaNombre}, ideal para uso diario. Prenda de excelente calidad y confección.",
                         'precio' => $item['precio'],
+                        'precio_costo' => (int) round($item['precio'] * 0.6),
                         'categoria_id' => $categoria->id,
                         'activo' => true,
                     ]
                 );
 
                 $esAccesorio = $categoriaNombre === 'Accesorios';
-                $tallas = $esAccesorio ? ['Única'] : ['S', 'M', 'L'];
+                $llevaTalla = ! in_array($item['nombre'], ['Cinturón de Cuero Marrón'], true);
+                $tallas = $esAccesorio ? ($llevaTalla ? ['Única'] : [null]) : ['S', 'M', 'L'];
                 $colores = $esAccesorio ? [$item['color'], 'Negro'] : [$item['color']];
 
                 foreach ($tallas as $talla) {
                     foreach ($colores as $color) {
-                        if ($talla === 'Única' && $color === $item['color']) {
-                            $stock = 15;
-                        } else {
-                            $stock = random_int(0, 20);
-                        }
-
                         VarianteProducto::query()->updateOrCreate(
                             ['producto_id' => $producto->id, 'talla' => $talla, 'color' => $color],
-                            ['stock' => $stock]
+                            ['disponible' => random_int(0, 9) > 1]
                         );
                     }
                 }

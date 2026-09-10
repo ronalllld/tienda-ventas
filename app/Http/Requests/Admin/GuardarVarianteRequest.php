@@ -14,9 +14,9 @@ class GuardarVarianteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'talla' => ['required', 'string', 'max:50'],
+            'talla' => ['nullable', 'string', 'max:50'],
             'color' => ['required', 'string', 'max:50'],
-            'stock' => ['required', 'integer', 'min:0'],
+            'disponible' => ['sometimes', 'boolean'],
         ];
     }
 }

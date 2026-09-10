@@ -14,6 +14,7 @@ const form = reactive({
     slug: '',
     descripcion: '',
     precio: 0,
+    precio_costo: null,
     categoria_id: '',
     activo: true,
 });
@@ -23,6 +24,7 @@ watch(() => props.producto, (producto) => {
     form.slug = producto?.slug ?? '';
     form.descripcion = producto?.descripcion ?? '';
     form.precio = producto?.precio ?? 0;
+    form.precio_costo = producto?.precio_costo ?? null;
     form.categoria_id = producto?.categoria?.id ?? '';
     form.activo = producto?.activo ?? true;
 }, { immediate: true });
@@ -51,21 +53,30 @@ function enviar() {
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Precio (Bs)</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Precio de venta (Bs)</label>
                 <div class="relative">
                     <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-sm text-gray-400">Bs</span>
                     <input v-model.number="form.precio" type="number" min="0" step="0.01" required class="w-full rounded-md border-gray-300 pl-9">
                 </div>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
-                <select v-model="form.categoria_id" required class="w-full rounded-md border-gray-300">
-                    <option value="" disabled>Selecciona una categoría</option>
-                    <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id">
-                        {{ categoria.nombre }}
-                    </option>
-                </select>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Precio de costo (Bs, opcional)</label>
+                <div class="relative">
+                    <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-sm text-gray-400">Bs</span>
+                    <input v-model.number="form.precio_costo" type="number" min="0" step="0.01" class="w-full rounded-md border-gray-300 pl-9">
+                </div>
+                <p class="mt-1 text-xs text-gray-400">No se muestra al público. Se usa para calcular tu ganancia.</p>
             </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+            <select v-model="form.categoria_id" required class="w-full rounded-md border-gray-300">
+                <option value="" disabled>Selecciona una categoría</option>
+                <option v-for="categoria in categorias" :key="categoria.id" :value="categoria.id">
+                    {{ categoria.nombre }}
+                </option>
+            </select>
         </div>
 
         <label class="flex items-center gap-2 text-sm text-gray-700">

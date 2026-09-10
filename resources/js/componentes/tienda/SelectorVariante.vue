@@ -7,6 +7,7 @@ const props = defineProps({
 
 const varianteId = defineModel();
 
+const tieneTallas = computed(() => props.variantes.some((v) => v.talla));
 const tallas = computed(() => [...new Set(props.variantes.map((v) => v.talla))]);
 const tallaElegida = ref(tallas.value[0] ?? null);
 
@@ -30,7 +31,7 @@ watch(varianteActual, () => {
 
 <template>
     <div class="space-y-4">
-        <div>
+        <div v-if="tieneTallas">
             <p class="mb-2 text-xs font-medium text-neutral-500">Talla</p>
             <div class="flex flex-wrap gap-2">
                 <button
@@ -55,7 +56,7 @@ watch(varianteActual, () => {
                     type="button"
                     class="rounded-full border px-4 py-1.5 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40"
                     :class="variante.color === colorElegido ? 'border-violet-600 bg-violet-600 text-white' : 'border-neutral-200 text-neutral-700 hover:border-violet-300'"
-                    :disabled="variante.stock === 0"
+                    :disabled="!variante.disponible"
                     @click="colorElegido = variante.color"
                 >
                     {{ variante.color }}
@@ -64,8 +65,8 @@ watch(varianteActual, () => {
         </div>
 
         <p v-if="varianteActual" class="text-xs text-neutral-400">
-            <span v-if="varianteActual.stock > 0">{{ varianteActual.stock }} disponibles</span>
-            <span v-else class="text-red-500">Sin stock</span>
+            <span v-if="varianteActual.disponible" class="text-emerald-600">Disponible</span>
+            <span v-else class="text-red-500">Vendido</span>
         </p>
     </div>
 </template>
