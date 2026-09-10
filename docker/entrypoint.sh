@@ -9,6 +9,10 @@ cd /var/www/html
 chown -R www-data:www-data storage bootstrap/cache 2>/dev/null || true
 chmod -R 775 storage bootstrap/cache 2>/dev/null || true
 
+# Carpetas temporales de nginx (por si /tmp arranca vacío en el contenedor).
+mkdir -p /tmp/nginx_client_body /tmp/nginx_proxy /tmp/nginx_fastcgi
+chown -R www-data:www-data /tmp/nginx_client_body /tmp/nginx_proxy /tmp/nginx_fastcgi
+
 echo "Esperando la base de datos..."
 tries=0
 until php -r "new PDO('mysql:host='.getenv('DB_HOST').';port='.getenv('DB_PORT'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));" 2>/dev/null; do
