@@ -33,33 +33,35 @@ async function eliminar(variante) {
 
 <template>
     <div>
-        <table class="w-full text-sm mb-4">
-            <thead class="text-left text-xs text-gray-500">
-                <tr>
-                    <th class="py-1">Talla</th>
-                    <th class="py-1">Color</th>
-                    <th class="py-1">Stock</th>
-                    <th class="py-1"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="variante in variantes" :key="variante.id" class="border-t border-gray-100">
-                    <td class="py-1.5">{{ variante.talla }}</td>
-                    <td class="py-1.5">{{ variante.color }}</td>
-                    <td class="py-1.5">
-                        <input
-                            type="number" min="0" :value="variante.stock" class="w-20 rounded-md border-gray-300 text-sm"
-                            @change="actualizarStock(variante, Number($event.target.value))"
-                        >
-                    </td>
-                    <td class="py-1.5 text-right">
-                        <button type="button" class="text-red-500 hover:underline" @click="eliminar(variante)">Eliminar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="mb-4 overflow-x-auto">
+            <table class="w-full min-w-[420px] text-sm">
+                <thead class="text-left text-xs text-gray-500">
+                    <tr>
+                        <th class="py-1">Talla</th>
+                        <th class="py-1">Color</th>
+                        <th class="py-1">Stock</th>
+                        <th class="py-1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="variante in variantes" :key="variante.id" class="border-t border-gray-100">
+                        <td class="py-1.5">{{ variante.talla }}</td>
+                        <td class="py-1.5">{{ variante.color }}</td>
+                        <td class="py-1.5">
+                            <input
+                                type="number" min="0" :value="variante.stock" class="w-20 rounded-md border-gray-300 text-sm"
+                                @change="actualizarStock(variante, Number($event.target.value))"
+                            >
+                        </td>
+                        <td class="py-1.5 text-right">
+                            <button type="button" class="text-red-500 hover:underline" @click="eliminar(variante)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-        <form class="flex items-end gap-2" @submit.prevent="agregar">
+        <form class="flex flex-wrap items-end gap-2" @submit.prevent="agregar">
             <div>
                 <label class="block text-xs text-gray-600 mb-1">Talla</label>
                 <input v-model="nueva.talla" required class="w-20 rounded-md border-gray-300 text-sm">

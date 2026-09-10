@@ -26,9 +26,9 @@ onMounted(cargar);
 
 <template>
     <div>
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col gap-3 mb-6 sm:flex-row sm:items-center sm:justify-between">
             <h1 class="text-2xl font-bold text-gray-900">Productos</h1>
-            <RouterLink :to="{ name: 'admin.productos.nuevo' }" class="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700">
+            <RouterLink :to="{ name: 'admin.productos.nuevo' }" class="inline-block rounded-md bg-gray-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-gray-700">
                 Nuevo producto
             </RouterLink>
         </div>
