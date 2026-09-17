@@ -17,6 +17,7 @@ class ProductoResource extends JsonResource
             'activo' => (bool) $this->activo,
             'categoria' => new CategoriaResource($this->whenLoaded('categoria')),
             'imagen_principal' => optional($this->imagenes->first())->url,
+            'imagenes' => $this->imagenes->pluck('url')->values(),
         ];
     }
 }
