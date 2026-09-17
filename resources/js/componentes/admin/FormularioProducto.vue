@@ -16,7 +16,6 @@ const form = reactive({
     precio: 0,
     precio_costo: null,
     categoria_id: '',
-    activo: true,
 });
 
 watch(() => props.producto, (producto) => {
@@ -26,7 +25,6 @@ watch(() => props.producto, (producto) => {
     form.precio = producto?.precio ?? 0;
     form.precio_costo = producto?.precio_costo ?? null;
     form.categoria_id = producto?.categoria?.id ?? '';
-    form.activo = producto?.activo ?? true;
 }, { immediate: true });
 
 function enviar() {
@@ -78,11 +76,6 @@ function enviar() {
                 </option>
             </select>
         </div>
-
-        <label class="flex items-center gap-2 text-sm text-gray-700">
-            <input v-model="form.activo" type="checkbox" class="h-4 w-4 rounded border border-gray-300">
-            Producto activo (visible en el catálogo)
-        </label>
 
         <button type="submit" :disabled="guardando" class="rounded-md bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-50">
             {{ guardando ? 'Guardando...' : 'Guardar producto' }}

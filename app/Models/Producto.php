@@ -45,9 +45,6 @@ class Producto extends Model
 
     public function scopeConStockDisponible(Builder $query): Builder
     {
-        return $query->where(function (Builder $q) {
-            $q->doesntHave('variantes')
-                ->orWhereHas('variantes', fn (Builder $q) => $q->where('disponible', true));
-        });
+        return $query->whereHas('variantes', fn (Builder $q) => $q->where('disponible', true));
     }
 }

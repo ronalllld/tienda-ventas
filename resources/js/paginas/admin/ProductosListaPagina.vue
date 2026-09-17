@@ -28,6 +28,13 @@ function esPendiente(producto) {
     return !producto.imagen_principal || producto.variantes.length === 0;
 }
 
+function estadoVenta(producto) {
+    if (producto.variantes.length === 0) {
+        return 'sin_variantes';
+    }
+    return producto.variantes.some((v) => v.disponible) ? 'a_la_venta' : 'vendido';
+}
+
 const productosFiltrados = computed(() => productos.value.filter((producto) => {
     if (filtros.texto && !producto.nombre.toLowerCase().includes(filtros.texto.toLowerCase())) {
         return false;
@@ -35,10 +42,7 @@ const productosFiltrados = computed(() => productos.value.filter((producto) => {
     if (filtros.categoriaId && producto.categoria?.id !== filtros.categoriaId) {
         return false;
     }
-    if (filtros.estado === 'activo' && !producto.activo) {
-        return false;
-    }
-    if (filtros.estado === 'inactivo' && producto.activo) {
+    if (filtros.estado && estadoVenta(producto) !== filtros.estado) {
         return false;
     }
     if (filtros.soloPendientes && !esPendiente(producto)) {
@@ -87,9 +91,10 @@ onMounted(cargar);
                 v-model="filtros.estado"
                 class="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100"
             >
-                <option value="">Activos e inactivos</option>
-                <option value="activo">Solo activos</option>
-                <option value="inactivo">Solo inactivos</option>
+                <option value="">Cualquier estado</option>
+                <option value="a_la_venta">A la venta</option>
+                <option value="vendido">Vendidos</option>
+                <option value="sin_variantes">Sin variantes</option>
             </select>
             <label class="flex items-center gap-1.5 text-sm text-gray-600">
                 <input v-model="filtros.soloPendientes" type="checkbox" class="h-4 w-4 rounded border border-gray-300">

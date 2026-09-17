@@ -14,6 +14,17 @@ async function alternarDisponible(variante) {
     await actualizarVariante(variante.id, { talla: variante.talla, color: variante.color, disponible });
     variante.disponible = disponible;
 }
+
+function estadoProducto(producto) {
+    if (producto.variantes.length === 0) {
+        return { texto: 'Sin variantes', clase: 'text-amber-600' };
+    }
+
+    const hayDisponible = producto.variantes.some((v) => v.disponible);
+    return hayDisponible
+        ? { texto: 'A la venta', clase: 'text-green-600' }
+        : { texto: 'Vendido', clase: 'text-gray-400' };
+}
 </script>
 
 <template>
@@ -58,9 +69,7 @@ async function alternarDisponible(variante) {
                         </div>
                     </td>
                     <td class="px-4 py-2 text-sm">
-                        <span :class="producto.activo ? 'text-green-600' : 'text-gray-400'">
-                            {{ producto.activo ? 'Activo' : 'Inactivo' }}
-                        </span>
+                        <span :class="estadoProducto(producto).clase">{{ estadoProducto(producto).texto }}</span>
                     </td>
                     <td class="px-4 py-2 text-sm text-right space-x-3 whitespace-nowrap">
                         <RouterLink :to="{ name: 'admin.productos.editar', params: { id: producto.id } }" class="text-gray-600 hover:underline">
