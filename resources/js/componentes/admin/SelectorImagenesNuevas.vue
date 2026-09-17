@@ -1,15 +1,39 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { comprimirImagen } from '../../servicios/imagenServicio';
 
 const archivos = defineModel({ default: () => [] });
+
+const procesando = ref(false);
+const arrastrando = ref(false);
 
 const previsualizaciones = computed(() =>
     archivos.value.map((archivo) => ({ archivo, url: URL.createObjectURL(archivo) }))
 );
 
-function agregar(evento) {
-    archivos.value = [...archivos.value, ...Array.from(evento.target.files)];
+async function agregarArchivos(nuevos) {
+    if (nuevos.length === 0) {
+        return;
+    }
+
+    procesando.value = true;
+    try {
+        const comprimidos = await Promise.all(nuevos.map(comprimirImagen));
+        archivos.value = [...archivos.value, ...comprimidos];
+    } finally {
+        procesando.value = false;
+    }
+}
+
+function alSeleccionar(evento) {
+    agregarArchivos(Array.from(evento.target.files));
     evento.target.value = '';
+}
+
+function alSoltar(evento) {
+    arrastrando.value = false;
+    const nuevos = Array.from(evento.dataTransfer.files).filter((a) => a.type.startsWith('image/'));
+    agregarArchivos(nuevos);
 }
 
 function quitar(indice) {
@@ -32,9 +56,16 @@ function quitar(indice) {
             </div>
         </div>
 
-        <label class="inline-block cursor-pointer rounded-md border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50">
-            Agregar imágenes
-            <input type="file" accept="image/*" multiple class="hidden" @change="agregar">
+        <label
+            class="flex flex-col items-center justify-center rounded-md border-2 border-dashed px-4 py-6 text-center text-sm cursor-pointer transition-colors"
+            :class="arrastrando ? 'border-violet-400 bg-violet-50 text-violet-600' : 'border-gray-300 text-gray-500 hover:bg-gray-50'"
+            @dragover.prevent="arrastrando = true"
+            @dragleave.prevent="arrastrando = false"
+            @drop.prevent="alSoltar"
+        >
+            <span v-if="procesando">Procesando...</span>
+            <span v-else>Arrastrá imágenes acá o hacé clic para elegirlas (podés seleccionar varias)</span>
+            <input type="file" accept="image/*" multiple class="hidden" @change="alSeleccionar">
         </label>
         <p class="mt-1 text-xs text-gray-400">Se subirán al guardar el producto.</p>
     </div>

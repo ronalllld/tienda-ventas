@@ -18,7 +18,7 @@ async function enviar() {
     enviando.value = true;
     try {
         await sesion.iniciarSesion(correo.value, contrasena.value);
-        router.push(route.query.redirigir || { name: 'admin.productos' });
+        router.push(route.query.redirigir || { name: 'admin.ventas' });
     } catch (e) {
         error.value = e.response?.data?.errors?.correo?.[0] ?? 'No se pudo iniciar sesión.';
     } finally {

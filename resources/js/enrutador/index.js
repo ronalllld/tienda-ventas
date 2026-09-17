@@ -22,7 +22,7 @@ const router = createRouter({
             component: () => import('../componentes/estructura/DisenoAdmin.vue'),
             meta: { requiereAuth: true },
             children: [
-                { path: '', redirect: { name: 'admin.productos' } },
+                { path: '', redirect: { name: 'admin.ventas' } },
                 { path: 'productos', name: 'admin.productos', component: () => import('../paginas/admin/ProductosListaPagina.vue') },
                 { path: 'productos/nuevo', name: 'admin.productos.nuevo', component: () => import('../paginas/admin/ProductoFormPagina.vue') },
                 { path: 'productos/:id/editar', name: 'admin.productos.editar', component: () => import('../paginas/admin/ProductoFormPagina.vue') },

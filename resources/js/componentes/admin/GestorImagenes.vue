@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { subirImagen, eliminarImagen } from '../../servicios/adminServicio';
+import { comprimirImagen } from '../../servicios/imagenServicio';
 
 const props = defineProps({
     productoId: { type: Number, required: true },
@@ -8,21 +9,34 @@ const props = defineProps({
 });
 
 const subiendo = ref(false);
+const arrastrando = ref(false);
 
-async function subir(evento) {
-    const archivo = evento.target.files[0];
-    if (!archivo) {
+async function subirArchivos(archivos) {
+    if (archivos.length === 0) {
         return;
     }
 
     subiendo.value = true;
     try {
-        const imagen = await subirImagen(props.productoId, archivo, props.imagenes.length);
-        props.imagenes.push(imagen);
+        for (const archivo of archivos) {
+            const comprimida = await comprimirImagen(archivo);
+            const imagen = await subirImagen(props.productoId, comprimida, props.imagenes.length);
+            props.imagenes.push(imagen);
+        }
     } finally {
         subiendo.value = false;
-        evento.target.value = '';
     }
+}
+
+function alSeleccionar(evento) {
+    subirArchivos(Array.from(evento.target.files));
+    evento.target.value = '';
+}
+
+function alSoltar(evento) {
+    arrastrando.value = false;
+    const archivos = Array.from(evento.dataTransfer.files).filter((a) => a.type.startsWith('image/'));
+    subirArchivos(archivos);
 }
 
 async function eliminar(imagen) {
@@ -49,9 +63,16 @@ async function eliminar(imagen) {
             </div>
         </div>
 
-        <label class="inline-block rounded-md border border-gray-300 px-4 py-2 text-sm cursor-pointer hover:bg-gray-50">
-            {{ subiendo ? 'Subiendo...' : 'Agregar imagen' }}
-            <input type="file" accept="image/*" class="hidden" :disabled="subiendo" @change="subir">
+        <label
+            class="flex flex-col items-center justify-center rounded-md border-2 border-dashed px-4 py-6 text-center text-sm cursor-pointer transition-colors"
+            :class="arrastrando ? 'border-violet-400 bg-violet-50 text-violet-600' : 'border-gray-300 text-gray-500 hover:bg-gray-50'"
+            @dragover.prevent="arrastrando = true"
+            @dragleave.prevent="arrastrando = false"
+            @drop.prevent="alSoltar"
+        >
+            <span v-if="subiendo">Subiendo...</span>
+            <span v-else>Arrastrá imágenes acá o hacé clic para elegirlas (podés seleccionar varias)</span>
+            <input type="file" accept="image/*" multiple class="hidden" :disabled="subiendo" @change="alSeleccionar">
         </label>
     </div>
 </template>

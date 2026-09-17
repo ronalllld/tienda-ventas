@@ -10,11 +10,16 @@ const props = defineProps({
 const nueva = reactive({ talla: '', color: '' });
 
 async function agregar() {
-    const variante = await crearVariante(props.productoId, {
-        talla: nueva.talla || null,
-        color: nueva.color,
-    });
-    props.variantes.push(variante);
+    const texto = nueva.talla.trim();
+    const tallas = texto
+        ? [...new Set(texto.split(',').map((t) => t.trim()).filter(Boolean))]
+        : [null];
+
+    for (const talla of tallas) {
+        const variante = await crearVariante(props.productoId, { talla, color: nueva.color });
+        props.variantes.push(variante);
+    }
+
     nueva.talla = '';
     nueva.color = '';
 }
@@ -75,7 +80,7 @@ async function eliminar(variante) {
         <form class="flex flex-wrap items-end gap-2" @submit.prevent="agregar">
             <div>
                 <label class="block text-xs text-gray-600 mb-1">Talla (opcional)</label>
-                <input v-model="nueva.talla" class="w-20 rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100">
+                <input v-model="nueva.talla" placeholder="ej. S,M,L" class="w-28 rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-100">
             </div>
             <div>
                 <label class="block text-xs text-gray-600 mb-1">Color</label>
@@ -85,5 +90,8 @@ async function eliminar(variante) {
                 Agregar
             </button>
         </form>
+        <p class="mt-2 text-xs text-gray-400">
+            Separá varias tallas con coma (ej. "S,M,L") para crearlas todas de una con el mismo color.
+        </p>
     </div>
 </template>
