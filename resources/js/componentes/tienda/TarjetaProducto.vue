@@ -1,21 +1,31 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
 import { formatearPrecio } from '../../servicios/whatsappServicio';
+
+const INTERVALO_ROTACION = 3000;
 
 const props = defineProps({
     producto: { type: Object, required: true },
 });
 
 const activa = ref(0);
+const contenedor = ref(null);
 let inicioX = 0;
 let arrastrada = false;
+let enPausa = false;
+let visible = false;
+let temporizador = null;
+let observador = null;
 
 const fotos = computed(() => (
     props.producto.imagenes?.length > 0 ? props.producto.imagenes : [props.producto.imagen_principal].filter(Boolean)
 ));
 
-watch(() => props.producto.id, () => { activa.value = 0; });
+watch(() => props.producto.id, () => {
+    activa.value = 0;
+    reiniciarTemporizador();
+});
 
 function siguiente() {
     activa.value = (activa.value + 1) % fotos.value.length;
@@ -25,9 +35,39 @@ function anterior() {
     activa.value = (activa.value - 1 + fotos.value.length) % fotos.value.length;
 }
 
+function siguienteManual() {
+    siguiente();
+    reiniciarTemporizador();
+}
+
+function anteriorManual() {
+    anterior();
+    reiniciarTemporizador();
+}
+
+function detenerTemporizador() {
+    if (temporizador) {
+        clearInterval(temporizador);
+        temporizador = null;
+    }
+}
+
+function reiniciarTemporizador() {
+    detenerTemporizador();
+    if (fotos.value.length <= 1) {
+        return;
+    }
+    temporizador = setInterval(() => {
+        if (!enPausa && visible) {
+            siguiente();
+        }
+    }, INTERVALO_ROTACION);
+}
+
 function alTocarInicio(evento) {
     inicioX = evento.touches[0].clientX;
     arrastrada = false;
+    enPausa = true;
 }
 
 function alTocarMover(evento) {
@@ -37,6 +77,7 @@ function alTocarMover(evento) {
 }
 
 function alTocarFin(evento) {
+    enPausa = false;
     if (fotos.value.length <= 1) {
         return;
     }
@@ -44,7 +85,7 @@ function alTocarFin(evento) {
     if (Math.abs(deltaX) < 30) {
         return;
     }
-    deltaX < 0 ? siguiente() : anterior();
+    deltaX < 0 ? siguienteManual() : anteriorManual();
 }
 
 function alClicEnlace(evento) {
@@ -52,15 +93,36 @@ function alClicEnlace(evento) {
         evento.preventDefault();
     }
 }
+
+onMounted(() => {
+    reiniciarTemporizador();
+
+    if (contenedor.value && 'IntersectionObserver' in window) {
+        observador = new IntersectionObserver(([entrada]) => {
+            visible = entrada.isIntersecting;
+        }, { threshold: 0.3 });
+        observador.observe(contenedor.value);
+    } else {
+        visible = true;
+    }
+});
+
+onUnmounted(() => {
+    detenerTemporizador();
+    observador?.disconnect();
+});
 </script>
 
 <template>
     <RouterLink :to="{ name: 'producto', params: { slug: producto.slug } }" class="group block" @click="alClicEnlace">
         <div
+            ref="contenedor"
             class="relative aspect-[3/4] touch-pan-y select-none overflow-hidden rounded-2xl bg-neutral-100"
             @touchstart="alTocarInicio"
             @touchmove="alTocarMover"
             @touchend="alTocarFin"
+            @mouseenter="enPausa = true"
+            @mouseleave="enPausa = false"
         >
             <img
                 v-if="fotos[activa]"
@@ -78,7 +140,7 @@ function alClicEnlace(evento) {
                     type="button"
                     class="absolute inset-y-0 left-0 flex w-1/3 items-center justify-start pl-1.5 opacity-0 transition-opacity hover:opacity-100 sm:pl-2"
                     aria-label="Foto anterior"
-                    @click.prevent.stop="anterior"
+                    @click.prevent.stop="anteriorManual"
                 >
                     <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-neutral-700 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -90,7 +152,7 @@ function alClicEnlace(evento) {
                     type="button"
                     class="absolute inset-y-0 right-0 flex w-1/3 items-center justify-end pr-1.5 opacity-0 transition-opacity hover:opacity-100 sm:pr-2"
                     aria-label="Foto siguiente"
-                    @click.prevent.stop="siguiente"
+                    @click.prevent.stop="siguienteManual"
                 >
                     <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-neutral-700 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
