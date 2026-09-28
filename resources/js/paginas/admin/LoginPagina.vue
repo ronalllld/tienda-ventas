@@ -37,7 +37,7 @@ async function enviar() {
                     </svg>
                 </span>
                 <h1 class="text-xl font-bold tracking-tight text-neutral-900">Panel administrador</h1>
-                <p class="mt-1 text-sm text-neutral-500">Tienda de Ropa &mdash; acceso interno</p>
+                <p class="mt-1 text-sm text-neutral-500">THE STORE &mdash; acceso interno</p>
             </div>
 
             <form

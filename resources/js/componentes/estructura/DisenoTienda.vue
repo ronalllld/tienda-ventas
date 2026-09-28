@@ -13,7 +13,7 @@ const modal = ref(null);
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
                 <RouterLink :to="{ name: 'catalogo' }" class="flex items-center gap-2 text-lg font-bold tracking-tight text-white">
                     <span class="h-2 w-2 rounded-full bg-lima"></span>
-                    Tienda de Ropa
+                    THE STORE
                 </RouterLink>
                 <button
                     type="button"
@@ -37,7 +37,7 @@ const modal = ref(null);
         </div>
 
         <footer class="bg-negro py-6 text-center text-sm text-gris">
-            Tienda de Ropa &mdash; pedidos coordinados por WhatsApp
+            THE STORE &mdash; pedidos coordinados por WhatsApp
         </footer>
 
         <ModalBienvenida ref="modal" />
