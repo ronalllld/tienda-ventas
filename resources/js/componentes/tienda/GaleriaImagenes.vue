@@ -37,7 +37,7 @@ function alTocarFin(evento) {
 <template>
     <div>
         <div
-            class="relative aspect-[3/4] touch-pan-y select-none overflow-hidden rounded-2xl bg-neutral-100"
+            class="relative aspect-[3/4] touch-pan-y select-none overflow-hidden rounded-2xl bg-gris/10"
             @touchstart="alTocarInicio"
             @touchend="alTocarFin"
         >
@@ -51,7 +51,7 @@ function alTocarFin(evento) {
             <template v-if="imagenes.length > 1">
                 <button
                     type="button"
-                    class="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-neutral-700 shadow-sm hover:bg-white"
+                    class="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-negro shadow-sm hover:bg-white"
                     aria-label="Foto anterior"
                     @click="anterior"
                 >
@@ -61,7 +61,7 @@ function alTocarFin(evento) {
                 </button>
                 <button
                     type="button"
-                    class="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-neutral-700 shadow-sm hover:bg-white"
+                    class="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-negro shadow-sm hover:bg-white"
                     aria-label="Foto siguiente"
                     @click="siguiente"
                 >
@@ -75,7 +75,7 @@ function alTocarFin(evento) {
                         v-for="(imagen, indice) in imagenes"
                         :key="imagen.id"
                         class="h-1.5 w-1.5 rounded-full transition-colors"
-                        :class="indice === activa ? 'bg-white' : 'bg-white/50'"
+                        :class="indice === activa ? 'bg-lima' : 'bg-white/50'"
                     ></span>
                 </div>
             </template>
@@ -87,7 +87,7 @@ function alTocarFin(evento) {
                 :key="imagen.id"
                 type="button"
                 class="h-16 w-16 overflow-hidden rounded-xl border-2 transition-colors"
-                :class="indice === activa ? 'border-neutral-900' : 'border-transparent opacity-70 hover:opacity-100'"
+                :class="indice === activa ? 'border-lima' : 'border-transparent opacity-70 hover:opacity-100'"
                 @click="activa = indice"
             >
                 <img :src="imagen.url" class="h-full w-full object-cover">

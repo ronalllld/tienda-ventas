@@ -53,7 +53,7 @@ function agregarAlCarrito() {
     <div>
         <RouterLink
             :to="{ name: 'catalogo' }"
-            class="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 hover:text-violet-600"
+            class="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-gris hover:text-negro"
         >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -61,15 +61,15 @@ function agregarAlCarrito() {
             Volver al catálogo
         </RouterLink>
 
-        <div v-if="cargando" class="text-neutral-400">Cargando...</div>
+        <div v-if="cargando" class="text-gris">Cargando...</div>
         <div v-else-if="producto" class="grid gap-8 sm:gap-10 md:grid-cols-2">
             <GaleriaImagenes :imagenes="producto.imagenes" />
 
             <div>
-                <p class="text-[11px] font-medium uppercase tracking-wide text-violet-500">{{ producto.categoria?.nombre }}</p>
-                <h1 class="mt-1 text-2xl font-bold tracking-tight text-neutral-900">{{ producto.nombre }}</h1>
-                <p class="mt-2 text-xl font-semibold text-neutral-900">{{ formatearPrecio(producto.precio) }}</p>
-                <p class="mt-4 text-sm leading-relaxed text-neutral-500">{{ producto.descripcion }}</p>
+                <p class="text-[11px] font-medium uppercase tracking-wide text-gris">{{ producto.categoria?.nombre }}</p>
+                <h1 class="mt-1 text-2xl font-bold tracking-tight text-negro">{{ producto.nombre }}</h1>
+                <p class="mt-2 text-xl font-semibold text-negro">{{ formatearPrecio(producto.precio) }}</p>
+                <p class="mt-4 text-sm leading-relaxed text-gris">{{ producto.descripcion }}</p>
 
                 <div class="mt-6">
                     <SelectorVariante v-model="varianteId" :variantes="producto.variantes" />
@@ -78,7 +78,7 @@ function agregarAlCarrito() {
                 <div class="mt-6">
                     <button
                         type="button"
-                        class="w-full rounded-full bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-40"
+                        class="w-full rounded-full bg-lima px-6 py-3 text-sm font-semibold text-negro transition-colors hover:bg-negro hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
                         :disabled="!varianteElegida || !varianteElegida.disponible"
                         @click="agregarAlCarrito"
                     >
@@ -92,7 +92,7 @@ function agregarAlCarrito() {
                     leave-active-class="transition duration-150 ease-in"
                     leave-to-class="opacity-0"
                 >
-                    <p v-if="mensaje" class="mt-3 text-sm font-medium text-violet-600">{{ mensaje }}</p>
+                    <p v-if="mensaje" class="mt-3 text-sm font-medium text-negro">{{ mensaje }}</p>
                 </Transition>
             </div>
         </div>

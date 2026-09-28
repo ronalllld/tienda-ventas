@@ -30,7 +30,7 @@ defineExpose({ abrir: () => (abierto.value = true) });
     <button
         v-if="!abierto"
         type="button"
-        class="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-violet-600 text-white shadow-lg shadow-violet-600/30 transition-transform hover:scale-105 lg:hidden"
+        class="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-lima text-negro shadow-lg shadow-lima/40 transition-transform hover:scale-105 lg:hidden"
         aria-label="Abrir selección"
         @click="abierto = true"
     >
@@ -39,24 +39,24 @@ defineExpose({ abrir: () => (abierto.value = true) });
         </svg>
         <span
             v-if="carrito.cantidadTotal > 0"
-            class="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white text-xs font-bold text-violet-600 ring-2 ring-white"
+            class="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-negro text-xs font-bold text-white ring-2 ring-white"
         >
             {{ carrito.cantidadTotal }}
         </span>
     </button>
 
-    <div v-if="abierto" class="fixed inset-0 z-40 bg-neutral-900/40 lg:hidden" @click="abierto = false" />
+    <div v-if="abierto" class="fixed inset-0 z-40 bg-negro/40 lg:hidden" @click="abierto = false" />
 
     <aside
-        class="fixed inset-x-0 bottom-0 z-50 flex max-h-[85vh] flex-col rounded-t-3xl bg-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:inset-auto lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:translate-y-0 lg:rounded-2xl lg:border lg:border-neutral-200 lg:shadow-sm"
+        class="fixed inset-x-0 bottom-0 z-50 flex max-h-[85vh] flex-col rounded-t-3xl bg-white shadow-2xl transition-transform duration-300 ease-out lg:sticky lg:inset-auto lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:translate-y-0 lg:rounded-2xl lg:border lg:border-gris/15 lg:shadow-sm"
         :class="abierto ? 'translate-y-0' : 'translate-y-full lg:translate-y-0'"
     >
-        <div class="flex items-center justify-between border-b border-neutral-100 px-5 py-4">
+        <div class="flex items-center justify-between border-b border-gris/15 px-5 py-4">
             <div>
-                <h2 class="font-semibold text-neutral-900">Tu selección</h2>
-                <p class="text-xs text-neutral-400">{{ carrito.cantidadTotal }} {{ carrito.cantidadTotal === 1 ? 'prenda' : 'prendas' }}</p>
+                <h2 class="font-semibold text-negro">Tu selección</h2>
+                <p class="text-xs text-gris">{{ carrito.cantidadTotal }} {{ carrito.cantidadTotal === 1 ? 'prenda' : 'prendas' }}</p>
             </div>
-            <button type="button" class="text-neutral-400 hover:text-violet-600 lg:hidden" aria-label="Cerrar" @click="abierto = false">
+            <button type="button" class="text-gris hover:text-negro lg:hidden" aria-label="Cerrar" @click="abierto = false">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -65,22 +65,22 @@ defineExpose({ abrir: () => (abierto.value = true) });
 
         <div class="flex-1 overflow-y-auto px-5">
             <div v-if="carrito.items.length === 0" class="flex flex-col items-center justify-center py-14 text-center">
-                <p class="text-sm text-neutral-400">Aún no has agregado ninguna prenda.</p>
-                <p class="mt-1 text-xs text-neutral-300">Elige talla y color en un producto para verlo aquí.</p>
+                <p class="text-sm text-gris">Aún no has agregado ninguna prenda.</p>
+                <p class="mt-1 text-xs text-gris/70">Elige talla y color en un producto para verlo aquí.</p>
             </div>
-            <div v-else class="divide-y divide-neutral-100">
+            <div v-else class="divide-y divide-gris/10">
                 <ItemCarrito v-for="item in carrito.items" :key="item.varianteId" :item="item" />
             </div>
         </div>
 
-        <div v-if="carrito.items.length > 0" class="border-t border-neutral-100 px-5 py-4">
+        <div v-if="carrito.items.length > 0" class="border-t border-gris/15 px-5 py-4">
             <div class="mb-3 flex items-center justify-between">
-                <span class="text-sm text-neutral-500">Total estimado</span>
-                <span class="text-lg font-bold text-neutral-900">{{ formatearPrecio(carrito.totalEstimado) }}</span>
+                <span class="text-sm text-gris">Total estimado</span>
+                <span class="text-lg font-bold text-negro">{{ formatearPrecio(carrito.totalEstimado) }}</span>
             </div>
             <button
                 type="button"
-                class="flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700"
+                class="flex w-full items-center justify-center gap-2 rounded-full bg-lima px-4 py-3 text-sm font-semibold text-negro transition-colors hover:bg-negro hover:text-white"
                 @click="finalizarPedido"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
@@ -88,7 +88,7 @@ defineExpose({ abrir: () => (abierto.value = true) });
                 </svg>
                 Finalizar pedido por WhatsApp
             </button>
-            <p class="mt-2 text-center text-[11px] text-neutral-400">Coordinamos el pago directamente por WhatsApp.</p>
+            <p class="mt-2 text-center text-[11px] text-gris">Coordinamos el pago directamente por WhatsApp.</p>
         </div>
     </aside>
 </template>

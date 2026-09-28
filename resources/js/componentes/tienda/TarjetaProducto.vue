@@ -57,7 +57,7 @@ function alClicEnlace(evento) {
 <template>
     <RouterLink :to="{ name: 'producto', params: { slug: producto.slug } }" class="group block" @click="alClicEnlace">
         <div
-            class="relative aspect-[3/4] touch-pan-y select-none overflow-hidden rounded-2xl bg-neutral-100"
+            class="relative aspect-[3/4] touch-pan-y select-none overflow-hidden rounded-2xl bg-gris/10"
             @touchstart="alTocarInicio"
             @touchmove="alTocarMover"
             @touchend="alTocarFin"
@@ -69,7 +69,7 @@ function alClicEnlace(evento) {
                 class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 draggable="false"
             >
-            <span class="absolute bottom-2.5 left-2.5 rounded-full bg-violet-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
+            <span class="absolute bottom-2.5 left-2.5 rounded-full bg-negro/90 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
                 {{ formatearPrecio(producto.precio) }}
             </span>
 
@@ -80,7 +80,7 @@ function alClicEnlace(evento) {
                     aria-label="Foto anterior"
                     @click.prevent.stop="anterior"
                 >
-                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-neutral-700 shadow-sm">
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-negro shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
@@ -92,7 +92,7 @@ function alClicEnlace(evento) {
                     aria-label="Foto siguiente"
                     @click.prevent.stop="siguiente"
                 >
-                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-neutral-700 shadow-sm">
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/90 text-negro shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
@@ -104,14 +104,14 @@ function alClicEnlace(evento) {
                         v-for="(foto, indice) in fotos"
                         :key="indice"
                         class="h-1.5 w-1.5 rounded-full transition-colors"
-                        :class="indice === activa ? 'bg-white' : 'bg-white/50'"
+                        :class="indice === activa ? 'bg-lima' : 'bg-white/50'"
                     ></span>
                 </div>
             </template>
         </div>
         <div class="mt-3">
-            <p class="text-[11px] font-medium uppercase tracking-wide text-neutral-400">{{ producto.categoria?.nombre }}</p>
-            <h3 class="mt-0.5 truncate text-sm font-medium text-neutral-900 group-hover:text-violet-600">{{ producto.nombre }}</h3>
+            <p class="text-[11px] font-medium uppercase tracking-wide text-gris">{{ producto.categoria?.nombre }}</p>
+            <h3 class="mt-0.5 truncate text-sm font-medium text-negro decoration-lima decoration-2 group-hover:underline">{{ producto.nombre }}</h3>
         </div>
     </RouterLink>
 </template>

@@ -32,14 +32,14 @@ watch(varianteActual, () => {
 <template>
     <div class="space-y-4">
         <div v-if="tieneTallas">
-            <p class="mb-2 text-xs font-medium text-neutral-500">Talla</p>
+            <p class="mb-2 text-xs font-medium text-gris">Talla</p>
             <div class="flex flex-wrap gap-2">
                 <button
                     v-for="talla in tallas"
                     :key="talla"
                     type="button"
                     class="rounded-full border px-4 py-1.5 text-sm transition-colors"
-                    :class="talla === tallaElegida ? 'border-violet-600 bg-violet-600 text-white' : 'border-neutral-200 text-neutral-700 hover:border-violet-300'"
+                    :class="talla === tallaElegida ? 'border-lima bg-lima text-negro' : 'border-gris/30 text-negro hover:border-negro'"
                     @click="tallaElegida = talla"
                 >
                     {{ talla }}
@@ -48,14 +48,14 @@ watch(varianteActual, () => {
         </div>
 
         <div>
-            <p class="mb-2 text-xs font-medium text-neutral-500">Color</p>
+            <p class="mb-2 text-xs font-medium text-gris">Color</p>
             <div class="flex flex-wrap gap-2">
                 <button
                     v-for="variante in coloresParaTalla"
                     :key="variante.color"
                     type="button"
                     class="rounded-full border px-4 py-1.5 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40"
-                    :class="variante.color === colorElegido ? 'border-violet-600 bg-violet-600 text-white' : 'border-neutral-200 text-neutral-700 hover:border-violet-300'"
+                    :class="variante.color === colorElegido ? 'border-lima bg-lima text-negro' : 'border-gris/30 text-negro hover:border-negro'"
                     :disabled="!variante.disponible"
                     @click="colorElegido = variante.color"
                 >
@@ -64,7 +64,7 @@ watch(varianteActual, () => {
             </div>
         </div>
 
-        <p v-if="varianteActual" class="text-xs text-neutral-400">
+        <p v-if="varianteActual" class="text-xs text-gris">
             <span v-if="varianteActual.disponible" class="text-emerald-600">Disponible</span>
             <span v-else class="text-red-500">Vendido</span>
         </p>
