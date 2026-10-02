@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\IdentificarVisitante;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,6 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // hay que confiar en sus cabeceras X-Forwarded-* para que Laravel
         // genere URLs https:// y detecte bien la conexión segura.
         $middleware->trustProxies(at: '*');
+
+        $middleware->alias([
+            'visitante' => IdentificarVisitante::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

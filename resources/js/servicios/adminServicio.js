@@ -81,6 +81,12 @@ export async function obtenerVentas() {
     return { ventas: data.data, resumen: data.resumen };
 }
 
+// Estadísticas de visitantes
+export async function obtenerEstadisticasVisitantes() {
+    const { data } = await api.get('/api/admin/estadisticas');
+    return data;
+}
+
 // Imágenes
 export async function subirImagen(productoId, archivo, orden) {
     const formData = new FormData();

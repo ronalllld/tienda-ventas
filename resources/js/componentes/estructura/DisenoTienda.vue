@@ -1,10 +1,25 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 import CarritoLateral from '../tienda/CarritoLateral.vue';
 import ModalBienvenida from './ModalBienvenida.vue';
 
 const modal = ref(null);
+let temporizadorPing = null;
+
+function enviarPing() {
+    if (document.visibilityState === 'visible') {
+        fetch('/ping', { credentials: 'same-origin' }).catch(() => {});
+    }
+}
+
+onMounted(() => {
+    temporizadorPing = setInterval(enviarPing, 60000);
+});
+
+onUnmounted(() => {
+    clearInterval(temporizadorPing);
+});
 </script>
 
 <template>

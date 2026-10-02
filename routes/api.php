@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\CategoriaController;
+use App\Http\Controllers\Api\Admin\EstadisticaController;
 use App\Http\Controllers\Api\Admin\ImagenProductoController;
 use App\Http\Controllers\Api\Admin\ProductoController;
 use App\Http\Controllers\Api\Admin\SesionAdminController;
@@ -39,5 +40,7 @@ Route::prefix('admin')->group(function () {
         Route::delete('/imagenes/{imagen}', [ImagenProductoController::class, 'destroy']);
 
         Route::get('/ventas', [VentaController::class, 'index']);
+
+        Route::get('/estadisticas', [EstadisticaController::class, 'index']);
     });
 });

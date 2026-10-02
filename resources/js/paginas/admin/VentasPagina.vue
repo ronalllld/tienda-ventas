@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
+import EstadisticasVisitantes from '../../componentes/admin/EstadisticasVisitantes.vue';
 import { obtenerVentas } from '../../servicios/adminServicio';
 import { formatearPrecio } from '../../servicios/whatsappServicio';
 
@@ -24,6 +25,8 @@ onMounted(cargar);
 
 <template>
     <div>
+        <EstadisticasVisitantes />
+
         <h1 class="text-2xl font-bold text-gray-900 mb-6">Ventas</h1>
 
         <p v-if="cargando" class="text-gray-500">Cargando...</p>
